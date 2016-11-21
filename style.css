@@ -1,0 +1,36 @@
+.octo-tiles .octo-tile {
+	width: 33%;
+}
+
+.octo-tiles .octo-tile .project {
+	display: inline-block;
+	text-align: left;
+	width: 100%;
+	height: 100%;
+}
+
+.octo-tiles .octo-tile .project .project-logo-new-container {
+	width: 25%;
+	float: left;
+}
+
+.octo-tiles .octo-tile .project .project-desc {
+	width: 73%;
+	float: right;
+}
+
+.octo-tiles .octo-tile .project .project-logo {
+	max-width: 100%;
+}
+
+.project-list .project .project-description {
+	max-height: 60px;
+}
+
+.deployment-square .release-date {
+	font-weight: 500;
+}
+
+.panel-title {
+	font-size: 13pt;
+}

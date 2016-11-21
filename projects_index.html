@@ -1,0 +1,66 @@
+<script octo-section="breadcrumbs" type="text/ng-template">
+  <ul class='breadcrumb'>
+    <li><a href="#/projects">Projects</a></li>
+  </ul>
+</script>
+
+<script octo-section="tools" type="text/ng-template">
+  <div style="float: right; margin-left: 2px;"><input placeholder="Search Projects" id="search-input" class="form-control" type="search" ng-model="search.Name" style="width: 280px;" /></div>
+  <a octo-permission="ProjectGroupCreate" class='btn btn-link' ng-show="!isLoading.busy && (anyShowing() || projectGroups.length == 0)" href="#/projectgroups/new">Add project group</a>
+  <a octo-permission="ProjectCreate" class='btn btn-success' ng-show="!anyLoading() && !anyShowing()" href="#/projects/new">Add project</a>
+</script>
+
+
+<div class="row">
+  <div class="col-sm-12 col-md-12 col-lg-12">
+    <loading-wrapper busy="isLoading">
+      <div ng-show="projectGroups">
+        <div class="tutorial tutorial-center" ng-hide="projectGroups.length > 0">
+          <p>You don't have any project groups to add a project to. <span octo-permission="ProjectGroupCreate">You can create a project group using the <strong>Add project group</strong> button above.</span></p>
+        </div>
+
+        <div class="tutorial tutorial-center" ng-show="projectCount == 0 && projectGroupsWaitingForProjectsToLoad == 0">
+          <p>You don't have any projects. <span octo-permission="ProjectCreate">You can create a project using the <strong>Add project</strong> button.</span></p>
+        </div>
+      </div>
+
+      <div ng-repeat="projectGroup in projectGroups | filter:isGroupVisible" ng-show="(filteredProjects = (projects[projectGroup.Id].Items | filter:search)).length > 0" class="panel panel-transparent">
+		<div class="panel-heading">
+          <span class="panel-title">{{ projectGroup.Name }}</span>
+          <div class="panel-heading-controls">
+            <a class="btn btn-link btn-default" octo-permission="ProjectGroupEdit" href="#/projectgroups/{{ projectGroup.Id }}">Edit</a>
+            <a class="btn btn-success" octo-permission="ProjectCreate" href="#/projects/new/{{ projectGroup.Id }}">Add project</a>
+          </div>
+        </div>
+        <div class="panel-body project-list">
+          <markdown class="subtle" text="projectGroup.Description"></markdown>
+
+          <loading-wrapper busy="projectsLoading[projectGroup.Id]">
+            <div class="octo-tiles">
+              <div class="octo-tile" ng-repeat="project in filteredProjects">
+                <a href="#/projects/{{project.Slug}}" class="project">
+                  <div class="project-logo-new-container"><project-logo project="project"></project-logo></div>
+                  <div class="project-desc">
+					<span class="project-name" style="line-height: 1.5;">{{ project.Name }}</span>
+					<markdown class="subtle project-description" text="project.Description"></markdown>
+				  </div>
+                </a>
+              </div>
+            </div>
+            <!--<octo-paginator is-loading="projectsLoading[projectGroup.Id]" collection="projects[projectGroup.Id]"></octo-paginator>-->
+          </loading-wrapper>
+        </div>
+      </div>
+
+      <div class="view-options" ng-show="anyHiding()">
+        <button class="btn btn-link btn-default" type="button" ng-click="view.showEmptyGroups = true">Show empty groups &raquo;</button>
+      </div>
+
+      <div class="view-options" ng-show="view.showEmptyGroups">
+        <button class="btn btn-link btn-default" type="button" ng-click="view.showEmptyGroups = false">&laquo; Hide empty groups</button>
+      </div>
+
+
+    </loading-wrapper>
+  </div>
+</div>

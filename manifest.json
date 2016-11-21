@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+  "name": "Octopus Deploy",
+  "version": "1.0.0",
+  "icons": {
+    "96": "icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://octo.centralus.cloudapp.azure.com/*", "https://deploy.directs.com/*", "https://deploy/*"],
+      "js": ["script.js"]
+    }
+  ],
+  "web_accessible_resources": ["style.css", "octopus.js", "double_scroll.js", "projects_index.html"]
+}
